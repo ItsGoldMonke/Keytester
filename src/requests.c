@@ -1,17 +1,22 @@
 #include <stdio.h>
 #include <curl/curl.h>
 
-int main(void)
+void make_request(const char *url, const char *headers)
 {
     printf("Curl function:\n");
     CURL *curl = curl_easy_init();
 
+
     if (curl == NULL) {
         printf("Failed to init CURL\n");
-        return 1;
     }
 
-    curl_easy_setopt(curl, CURLOPT_URL, "https://httpbin.org/get");
+    struct curl_slist *chunk = NULL;
+
+    chunk = curl_slist_append(chunk, headers);
+
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, chunk);
+    curl_easy_setopt(curl, CURLOPT_URL, url);
 
     CURLcode result = curl_easy_perform(curl);
 
@@ -20,6 +25,5 @@ int main(void)
     }
 
     curl_easy_cleanup(curl);
-    return 0;
-
+    curl_slist_free_all(chunk);
 }
