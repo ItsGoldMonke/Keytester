@@ -21,7 +21,7 @@ The following api providers are implemented right now:
 | Openrouter         | `openrouter`      | https://openrouter.ai/api/v1/models                                  |
 | GitHub             | `github`          | https://api.github.com/user                                          |
 | GitLab             | `gitlab`          | https://gitlab.com/api/v4/user                                       |
-| Nasa               | `nasa`            | https://science.nasa.gov/wp-json/wp/v2/apod-basic/?api_key=<key>     |
+| NASA               | `nasa`            | https://api.nasa.gov/planetary/apod?api_key=<key>                    |
 | Slack              | `slack`           | https://slack.com/api/auth.test                                      |
 | OpenWeather        | `openweather`     | https://api.openweathermap.org/data/2.5/weather?q=London&appid=<key> |
 | Telegram (bots)    | `telegram`        | https://api.telegram.org/bot<key>/getMe                              |

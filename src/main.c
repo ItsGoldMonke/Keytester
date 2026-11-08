@@ -245,7 +245,7 @@ int main(int argc, char *argv[])
 
             char url[512];
 
-            int written = snprintf(url, sizeof(url), "https://science.nasa.gov/wp-json/wp/v2/apod-basic/?api_key=%s", key);
+            int written = snprintf(url, sizeof(url), "https://api.nasa.gov/planetary/apod?api_key=%s", key);
 
             if (written < 0 || (size_t)written >= sizeof(url))
             {
