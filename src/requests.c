@@ -28,12 +28,16 @@ void make_request(const char *url, const char *headers)
     curl_easy_setopt(curl, CURLOPT_URL, url);
 
     CURLcode result = curl_easy_perform(curl);
-    long response_code;
-    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
-    printf("\nStatus code: %ld\n", response_code);
+    
     if (result != CURLE_OK) {
         printf("Request was not OK, something went wrong %s \n", curl_easy_strerror(result));
     }
+
+    long response_code;
+    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
+    
+    printf("\nStatus code: %ld\n", response_code);
+    
     curl_slist_free_all(chunk);
     curl_easy_cleanup(curl);
 }
