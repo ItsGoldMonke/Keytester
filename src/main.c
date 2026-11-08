@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdio.h>
+#include <time.h>
 #include "requests.h"
 
 void list_providers() {
@@ -18,21 +19,37 @@ int main(int argc, char *argv[])
     make_request("https://httpbin.org/get", "");
     if (argc > 1) 
     {
-        for (int i = 0; i < argc; i++)
+        const char *provider = NULL;
+        const char *key = NULL;
+
+        for (int i = 1; i < argc; i++)
         {
             if (strcmp(argv[i], "--provider") == 0)
             {
-                if (strcmp(argv[i+1], "discord") == 0)
+                if (i + 1 >= argc)
                 {
-                    printf("Discord\n");
-                    make_request("https://discord.com/api/v10/users/@me", "Authorization: Bot ");
+                    printf("--provider requires a value. Use --help for help\n");
+                    return 1;
                 }
+
+                provider = argv[++i];
+                printf("%s\n", provider);
             }
-            else {
-                if (strcmp(argv[i], "providers") == 0)
+            else if (strcmp(argv[i], "--key") == 0)
+            {
+                if (i + 1 >= argc)
                 {
-                    list_providers();
+                    printf("--key requires a value. Use --help for help\n");
+                    return 1;
                 }
+
+                key = argv[++i];
+                printf("%s\n", key);
+            }
+            else
+            {
+                printf("Unknown argument: %s\n", argv[i]);
+                return 1;
             }
         }
         
