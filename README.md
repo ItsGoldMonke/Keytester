@@ -65,7 +65,7 @@ sudo pacman -S base-devel curl
 
 ```bash
 sudo apt update
-sudo apt install build-essential curl
+sudo apt install build-essential libcurl4-openssl-dev
 ```
 
 #### Other distributions
