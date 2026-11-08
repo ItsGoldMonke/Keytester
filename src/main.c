@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 #include "requests.h"
@@ -44,7 +45,11 @@ int main(int argc, char *argv[])
                 }
 
                 key = argv[++i];
-                printf("%s\n", key);
+            }
+            else if (strcmp(argv[i], "--help") == 0) 
+            {
+                printf("Usage: keytester --provider PROVIDER --key KEY\n");
+                return 0;
             }
             else
             {
@@ -52,7 +57,94 @@ int main(int argc, char *argv[])
                 return 1;
             }
         }
-        
+
+        if (provider == NULL)
+        {
+            printf("ERROR: No provider specified\n");
+            return 1;
+        }
+
+        if (strcmp(provider, "discord") == 0)
+        {
+            if (key == NULL)
+            {
+                printf("Discord needs a bot token\n");
+                return 1;
+            }
+
+            const char *prefix = "Authorization: Bot ";
+            size_t header_size = strlen(prefix) + strlen(key) + 1;
+
+            char *auth_header = malloc(header_size);
+
+            if (auth_header == NULL)
+            {
+                printf("Failed to allocate auth header\n");
+                return 1;
+            }
+
+            strcpy(auth_header, prefix);
+            strcat(auth_header, key);
+
+            make_request("https://discord.com/api/v10/users/@me", auth_header);
+
+            free(auth_header);
+        }
+
+        if (strcmp(provider, "gemini") == 0)
+        {
+            if (key == NULL)
+            {
+                printf("Gemini needs an api key\n");
+                return 1;
+            }
+            const char *prefix = "x-goog-api-key: ";
+            size_t header_size = strlen(prefix) + strlen(key) + 1;
+
+            char *auth_header = malloc(header_size);
+
+            if (auth_header == NULL)
+            {
+                printf("Failed to allocate auth header\n");
+                return 1;
+            }
+
+            strcpy(auth_header, prefix);
+            strcat(auth_header, key);
+
+            make_request("https://generativelanguage.googleapis.com/v1beta/models", auth_header);
+            free(auth_header);
+        }
+
+        if (strcmp(provider, "openrouter") == 0)
+        {
+            if (key == NULL)
+            {
+                printf("Openrouter needs an api key\n");
+                return 1;
+            }
+            const char *prefix = "Authorization: Bearer ";
+            size_t header_size = strlen(prefix) + strlen(key) + 1;
+
+            char *auth_header = malloc(header_size);
+
+            if (auth_header == NULL)
+            {
+                printf("Failed to allocate auth header\n");
+                return 1;
+            }
+
+            strcpy(auth_header, prefix);
+            strcat(auth_header, key);
+
+            make_request("https://openrouter.ai/api/v1/models", auth_header);
+            free(auth_header);            
+        }
+
+        else {
+            printf("Unknown provider: %s\n", provider);
+            return 1;
+        }
     }
     
     return 0;
