@@ -12,12 +12,13 @@ void list_providers() {
     printf("[webhook-dc]: Discord Webhook\n");
     printf("[gemini]: Google Gemini\n");
     printf("[openrouter]: Openrouter\n");
+    printf("[github]: GitHub\n");
+    printf("[gitlab]: GitLab\n");
+    printf("[nasa]: Nasa\n");
 }
 
 int main(int argc, char *argv[])
 {
-    printf("Hello world! \n");
-    make_request("https://httpbin.org/get", "");
     if (argc > 1) 
     {
         const char *provider = NULL;
@@ -34,7 +35,6 @@ int main(int argc, char *argv[])
                 }
 
                 provider = argv[++i];
-                printf("%s\n", provider);
             }
             else if (strcmp(argv[i], "--key") == 0)
             {
@@ -100,8 +100,20 @@ int main(int argc, char *argv[])
 
             free(auth_header);
         }
+        
+        else if (strcmp(provider, "webhook-dc") == 0)
+        {
+            if (key == NULL)
+            {
+                printf("Discord webhook needs a url\n");
+                return 1;
+            }
 
-        if (strcmp(provider, "gemini") == 0)
+            make_request(key, NULL);
+
+        }
+
+        else if (strcmp(provider, "gemini") == 0)
         {
             if (key == NULL)
             {
@@ -126,7 +138,7 @@ int main(int argc, char *argv[])
             free(auth_header);
         }
 
-        if (strcmp(provider, "openrouter") == 0)
+        else if (strcmp(provider, "openrouter") == 0)
         {
             if (key == NULL)
             {
@@ -150,7 +162,61 @@ int main(int argc, char *argv[])
             make_request("https://openrouter.ai/api/v1/models", auth_header);
             free(auth_header);            
         }
+        
+        else if (strcmp(provider, "github") == 0)
+        {
+            if (key == NULL)
+            {
+                printf("Github needs an api key\n");
+                return 1;
+            }
+            const char *prefix = "Authorization: Bearer ";
+            size_t header_size = strlen(prefix) + strlen(key) + 1;
 
+            char *auth_header = malloc(header_size);
+
+            if (auth_header == NULL)
+            {
+                printf("Failed to allocate auth header\n");
+                return 1;
+            }
+
+            snprintf(auth_header, header_size, "%s%s", prefix, key);
+
+            make_request("https://api.github.com/user", auth_header);
+            free(auth_header);            
+        }
+        
+        else if (strcmp(provider, "gitlab") == 0)
+        {
+            if (key == NULL)
+            {
+                printf("Gitlab needs an api key\n");
+                return 1;
+            }
+
+            char auth_header[512];
+
+            snprintf(auth_header, sizeof(auth_header), "PRIVATE-TOKEN: %s", key);
+
+            make_request("https://gitlab.com/api/v4/user", auth_header);
+        }
+        
+        else if (strcmp(provider, "nasa") == 0)
+        {
+            if (key == NULL)
+            {
+                printf("Nasa needs an api key\n");
+                return 1;
+            }
+
+            char url[512];
+
+            snprintf(url, sizeof(url), "https://science.nasa.gov/wp-json/wp/v2/apod-basic/?api_key=%s", key);
+
+            make_request(url, "");
+        }
+        
         else {
             printf("Unknown provider: %s\n", provider);
             return 1;
