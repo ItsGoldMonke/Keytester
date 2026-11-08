@@ -53,7 +53,26 @@ Then run the file:
 # Building from source
 
 To build from source you need the following dependencies:
-`curl`, `make` and `gcc` (Often added with `base-devel` on Arch-like systems or `build-essential` on Debian)
+`curl`, `make` and `gcc` To install them use these instructions:
+
+#### Arch Linux:
+
+```bash
+sudo pacman -S base-devel curl
+```
+
+#### Ubuntu / Debian / Linux Mint
+
+```bash
+sudo apt update
+sudo apt install build-essential curl
+```
+
+#### Other distributions
+
+For other distributions, please look up their corresponding docs to find out which packages to install.
+
+## Instructions:
 
 Firstly, clone the repository:
 
