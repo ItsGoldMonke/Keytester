@@ -1,7 +1,15 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <curl/curl.h>
 
-void make_request(const char *url, const char *headers)
+static size_t discard_response(char *data, size_t size, size_t nmemb, void *userdata)
+{
+    (void)data;
+    (void)userdata;
+    return size * nmemb;
+}
+
+void make_request(const char *url, const char *headers, bool isRaw)
 {
     CURL *curl = curl_easy_init();
 
@@ -27,6 +35,11 @@ void make_request(const char *url, const char *headers)
     curl_easy_setopt(curl, CURLOPT_URL, url);
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "Keytester/1.0.0");
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, 20L);
+    
+    if (!isRaw)
+    {
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, discard_response);
+    }
     
     CURLcode result = curl_easy_perform(curl);
     

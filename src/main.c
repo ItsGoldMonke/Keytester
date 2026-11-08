@@ -1,7 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <stdio.h>
-#include <time.h>
 #include "requests.h"
 
 void list_providers() {
@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
     {
         const char *provider = NULL;
         const char *key = NULL;
+        bool raw = true;
 
         for (int i = 1; i < argc; i++)
         {
@@ -48,6 +49,10 @@ int main(int argc, char *argv[])
                 }
 
                 key = argv[++i];
+            }
+            else if (strcmp(argv[i], "--raw") == 0)
+            {
+                raw = true;
             }
             else if (strcmp(argv[i], "--help") == 0) 
             {
@@ -100,7 +105,7 @@ int main(int argc, char *argv[])
             strcpy(auth_header, prefix);
             strcat(auth_header, key);
 
-            make_request("https://discord.com/api/v10/users/@me", auth_header);
+            make_request("https://discord.com/api/v10/users/@me", auth_header, raw);
 
             free(auth_header);
         }
@@ -113,7 +118,7 @@ int main(int argc, char *argv[])
                 return 1;
             }
 
-            make_request(key, NULL);
+            make_request(key, NULL, raw);
 
         }
 
@@ -138,7 +143,7 @@ int main(int argc, char *argv[])
             strcpy(auth_header, prefix);
             strcat(auth_header, key);
 
-            make_request("https://generativelanguage.googleapis.com/v1beta/models", auth_header);
+            make_request("https://generativelanguage.googleapis.com/v1beta/models", auth_header, raw);
             free(auth_header);
         }
 
@@ -163,7 +168,7 @@ int main(int argc, char *argv[])
             strcpy(auth_header, prefix);
             strcat(auth_header, key);
 
-            make_request("https://openrouter.ai/api/v1/models", auth_header);
+            make_request("https://openrouter.ai/api/v1/models", auth_header, raw);
             free(auth_header);            
         }
         
@@ -187,7 +192,7 @@ int main(int argc, char *argv[])
 
             snprintf(auth_header, header_size, "%s%s", prefix, key);
 
-            make_request("https://api.github.com/user", auth_header);
+            make_request("https://api.github.com/user", auth_header, raw);
             free(auth_header);            
         }
         
@@ -203,7 +208,7 @@ int main(int argc, char *argv[])
 
             snprintf(auth_header, sizeof(auth_header), "PRIVATE-TOKEN: %s", key);
 
-            make_request("https://gitlab.com/api/v4/user", auth_header);
+            make_request("https://gitlab.com/api/v4/user", auth_header, raw);
         }
         
         else if (strcmp(provider, "nasa") == 0)
@@ -218,7 +223,7 @@ int main(int argc, char *argv[])
 
             snprintf(url, sizeof(url), "https://science.nasa.gov/wp-json/wp/v2/apod-basic/?api_key=%s", key);
 
-            make_request(url, "");
+            make_request(url, "", raw);
         }
         
         else if (strcmp(provider, "slack") == 0)
@@ -241,7 +246,7 @@ int main(int argc, char *argv[])
 
             snprintf(auth_header, header_size, "%s%s", prefix, key);
 
-            make_request("https://slack.com/api/auth.test", auth_header);
+            make_request("https://slack.com/api/auth.test", auth_header, raw);
         }
         
         else if (strcmp(provider, "openweather") == 0)
@@ -256,7 +261,7 @@ int main(int argc, char *argv[])
 
             snprintf(url, sizeof(url), "https://api.openweathermap.org/data/2.5/weather?q=London&appid=%s", key);
 
-            make_request(url, "");
+            make_request(url, "", raw);
         }
         
         else if (strcmp(provider, "telegram") == 0)
@@ -271,7 +276,7 @@ int main(int argc, char *argv[])
 
             snprintf(url, sizeof(url), "https://api.telegram.org/bot%s/getMe", key);
 
-            make_request(url, "");
+            make_request(url, "", raw);
         }
         
         else {
