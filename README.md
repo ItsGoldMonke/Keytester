@@ -13,18 +13,20 @@ This is my first ever C program, so expect some bugs to possibly exist. I made i
 
 The following api providers are implemented right now:
 
-| Service            | Parameter         |
-| ------------------ | ----------------- |
-| Discord (bots)     | `discord`         |
-| Discord (webhooks) | `webhook-discord` |
-| Google gemini      | `gemini`          |
-| Openrouter         | `openrouter`      |
-| GitHub             | `github`          |
-| GitLab             | `gitlab`          |
-| Nasa               | `nasa`            |
-| Slack              | `slack`           |
-| OpenWeather        | `openweather`     |
-| Telegram (bots)    | `telegram`        |
+| Service            | Parameter         | Endpoint                                                             |
+| ------------------ | ----------------- | -------------------------------------------------------------------- |
+| Discord (bots)     | `discord`         | https://discord.com/api/v10/users/@me                                |
+| Discord (webhooks) | `webhook-discord` | The webhook's url                                                    |
+| Google gemini      | `gemini`          | https://generativelanguage.googleapis.com/v1beta/models              |
+| Openrouter         | `openrouter`      | https://openrouter.ai/api/v1/models                                  |
+| GitHub             | `github`          | https://api.github.com/user                                          |
+| GitLab             | `gitlab`          | https://gitlab.com/api/v4/user                                       |
+| Nasa               | `nasa`            | https://science.nasa.gov/wp-json/wp/v2/apod-basic/?api_key=<key>     |
+| Slack              | `slack`           | https://slack.com/api/auth.test                                      |
+| OpenWeather        | `openweather`     | https://api.openweathermap.org/data/2.5/weather?q=London&appid=<key> |
+| Telegram (bots)    | `telegram`        | https://api.telegram.org/bot<key>/getMe                              |
+
+The endpoints used are meant to be least intrusive to the key owner, so they only affect limits if it is the only option available.
 
 # Requirements
 
@@ -45,6 +47,7 @@ Then run the file:
 ./keytester --help # Shows command usage
 ./keytester providers # Lists all providers
 ./keytester --provider discord --key <your token> # Tests a discord bot token.
+./keytester --provider gitlab # Tests a gitlab key by checking environment variables, and if none found prompting the user.
 ```
 
 # Building from source
