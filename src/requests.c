@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <curl/curl.h>
-#include <time.h>
 
 void make_request(const char *url, const char *headers)
 {
@@ -26,6 +25,7 @@ void make_request(const char *url, const char *headers)
     }
     
     curl_easy_setopt(curl, CURLOPT_URL, url);
+    curl_easy_setopt(curl, CURLOPT_USERAGENT, "Keytester/1.0.0");
 
     CURLcode result = curl_easy_perform(curl);
     
