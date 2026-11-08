@@ -279,6 +279,11 @@ int main(int argc, char *argv[])
             return 1;
         }
     }
+    else {
+        printf("No options supplied\n");
+        printf("Usage: keytester --provider PROVIDER --key KEY\n");
+        printf("To list all available providers, use 'keytester providers'\n");
+        }
     
     return 0;
 }
