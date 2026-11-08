@@ -240,6 +240,36 @@ int main(int argc, char *argv[])
             make_request("https://slack.com/api/auth.test", auth_header);
         }
         
+        else if (strcmp(provider, "openweather") == 0)
+        {
+            if (key == NULL)
+            {
+                printf("Openweather needs an api key\n");
+                return 1;
+            }
+
+            char url[512];
+
+            snprintf(url, sizeof(url), "https://api.openweathermap.org/data/2.5/weather?q=London&appid=%s", key);
+
+            make_request(url, "");
+        }
+        
+        else if (strcmp(provider, "telegram") == 0)
+        {
+            if (key == NULL)
+            {
+                printf("Telegram needs an api key\n");
+                return 1;
+            }
+
+            char url[512];
+
+            snprintf(url, sizeof(url), "https://api.telegram.org/bot%s/getMe", key);
+
+            make_request(url, "");
+        }
+        
         else {
             printf("Unknown provider: %s\n", provider);
             return 1;
