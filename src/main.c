@@ -8,13 +8,16 @@ void list_providers() {
     printf(
         "Choose one of these providers: \n"
     );
-    printf("[discord]: Discord\n");
-    printf("[webhook-dc]: Discord Webhook\n");
-    printf("[gemini]: Google Gemini\n");
-    printf("[openrouter]: Openrouter\n");
-    printf("[github]: GitHub\n");
-    printf("[gitlab]: GitLab\n");
-    printf("[nasa]: Nasa\n");
+    printf("[discord]:      Discord\n");
+    printf("[webhook-dc]:   Discord Webhook\n");
+    printf("[gemini]:       Google Gemini\n");
+    printf("[openrouter]:   Openrouter\n");
+    printf("[github]:       GitHub\n");
+    printf("[gitlab]:       GitLab\n");
+    printf("[nasa]:         Nasa\n");
+    printf("[slack]:        Slack\n");
+    printf("[openweather]:  Openweather\n");
+    printf("[telegram]:  Telegram\n");
 }
 
 int main(int argc, char *argv[])
@@ -49,6 +52,7 @@ int main(int argc, char *argv[])
             else if (strcmp(argv[i], "--help") == 0) 
             {
                 printf("Usage: keytester --provider PROVIDER --key KEY\n");
+                printf("To list all available providers, use 'keytester providers'\n");
                 return 0;
             }
             else if (strcmp(argv[i], "--version") == 0)
