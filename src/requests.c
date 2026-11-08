@@ -26,7 +26,8 @@ void make_request(const char *url, const char *headers)
     
     curl_easy_setopt(curl, CURLOPT_URL, url);
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "Keytester/1.0.0");
-
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 20L);
+    
     CURLcode result = curl_easy_perform(curl);
     
     if (result != CURLE_OK) {
