@@ -19,7 +19,7 @@ void list_providers() {
     printf("[nasa]:         Nasa\n");
     printf("[slack]:        Slack\n");
     printf("[openweather]:  Openweather\n");
-    printf("[telegram]:  Telegram\n");
+    printf("[telegram]:     Telegram\n");
 }
 
 int main(int argc, char *argv[])
