@@ -87,6 +87,9 @@ int main(int argc, char *argv[])
         }
         if (key == NULL || key[0] == '\0')
         {
+            key = getenv("KEYTESTER_KEY");
+            
+            if (key == NULL || key[0] == '\0')
             {
                 if (get_hidden_input("Enter your key: ", 
                                     key_buffer, 
