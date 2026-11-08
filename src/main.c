@@ -51,6 +51,16 @@ int main(int argc, char *argv[])
                 printf("Usage: keytester --provider PROVIDER --key KEY\n");
                 return 0;
             }
+            else if (strcmp(argv[i], "--version") == 0)
+            {
+                printf("keytester version: 1.0.0\n");
+                return 1;
+            }
+            else if (strcmp(argv[i], "providers") == 0)
+            {
+                list_providers();
+                return 1;
+            }
             else
             {
                 printf("Unknown argument: %s\n", argv[i]);
