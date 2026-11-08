@@ -2,7 +2,6 @@
 #define REQUESTS_H
 
 #include <stdbool.h>
-#include <stdio.h>
 #include <curl/curl.h>
 
 

@@ -1,5 +1,4 @@
 #include "input.h"
-
 #include <stdio.h>
 #include <string.h>
 
@@ -23,6 +22,52 @@ int get_hidden_input(char *prompt, char *buffer, size_t size)
 
     printf("%s", prompt);
     fflush(stdout);
+
+#ifdef _WIN32
+
+    if (!_isatty(_fileno(stdin)))
+    {
+        return 1;
+    }
+
+    size_t i = 0;
+    int overflow = 0;
+
+    while (1)
+    {
+        int c = _getch();
+
+        if (c == '\r')
+            break;
+
+        if (c == '\b')
+        {
+            if (i > 0)
+                i--;
+            continue;
+        }
+
+        if (c == 3) // Ctrl+C
+            return 1;
+
+        if (i < size - 1)
+            buffer[i++] = (char)c;
+        else
+            overflow = 1;
+    }
+
+    buffer[i] = '\0';
+    printf("\n");
+
+    if (overflow)
+    {
+        return 1;
+    }
+
+
+
+
+#else
 
     if (!isatty(STDIN_FILENO))
     {
@@ -52,6 +97,8 @@ int get_hidden_input(char *prompt, char *buffer, size_t size)
         return 1;
     }
     buffer[strcspn(buffer, "\r\n")] = '\0';
+
+#endif
 
     return 0;
 }
