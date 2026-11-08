@@ -228,6 +228,9 @@ int main(int argc, char *argv[])
             int written = snprintf(auth_header, sizeof(auth_header), "PRIVATE-TOKEN: %s", key);
 
             if (written < 0 || (size_t)written >= sizeof(auth_header))
+            {
+                fprintf(stderr, "Error: Header became too long");
+            }
 
             make_request("https://gitlab.com/api/v4/user", auth_header, raw);
         }
