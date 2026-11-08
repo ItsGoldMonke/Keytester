@@ -66,12 +66,12 @@ int main(int argc, char *argv[])
             else if (strcmp(argv[i], "--version") == 0)
             {
                 printf("keytester version: 1.0.0\n");
-                return 1;
+                return 0;
             }
             else if (strcmp(argv[i], "providers") == 0)
             {
                 list_providers();
-                return 1;
+                return 0;
             }
             else
             {
