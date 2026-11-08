@@ -217,6 +217,29 @@ int main(int argc, char *argv[])
             make_request(url, "");
         }
         
+        else if (strcmp(provider, "slack") == 0)
+        {
+            if (key == NULL)
+            {
+                printf("Slack needs a bot token\n");
+                return 1;
+            }
+            const char *prefix = "Authorization: Bearer ";
+            size_t header_size = strlen(prefix) + strlen(key) + 1;
+
+            char *auth_header = malloc(header_size);
+
+            if (auth_header == NULL)
+            {
+                printf("Failed to allocate auth header\n");
+                return 1;
+            }
+
+            snprintf(auth_header, header_size, "%s%s", prefix, key);
+
+            make_request("https://slack.com/api/auth.test", auth_header);
+        }
+        
         else {
             printf("Unknown provider: %s\n", provider);
             return 1;
