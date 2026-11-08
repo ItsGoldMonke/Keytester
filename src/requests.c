@@ -49,8 +49,8 @@ void make_request(const char *url, const char *headers, bool isRaw)
 
     long response_code;
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
-    
-    printf("\nStatus code: %ld\n", response_code);
+    printf("\n");
+    printf("Status code: %ld\n", response_code);
     
     curl_slist_free_all(chunk);
     curl_easy_cleanup(curl);

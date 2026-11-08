@@ -1,7 +1,9 @@
+#include <stddef.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include "input.h"
 #include "requests.h"
 
 void list_providers() {
@@ -26,6 +28,7 @@ int main(int argc, char *argv[])
     {
         const char *provider = NULL;
         const char *key = NULL;
+        char key_buffer[4096];
         bool raw = true;
 
         for (int i = 1; i < argc; i++)
@@ -81,6 +84,19 @@ int main(int argc, char *argv[])
         {
             printf("ERROR: No provider specified\n");
             return 1;
+        }
+        if (key == NULL || key[0] == '\0')
+        {
+            {
+                if (get_hidden_input("Enter your key: ", 
+                                    key_buffer, 
+                                    sizeof(key_buffer)) != 0)
+                {
+                    fprintf(stderr, "Failed to read input");
+                    return 1;
+                }
+                key = key_buffer;
+            }
         }
 
         if (strcmp(provider, "discord") == 0)
@@ -206,7 +222,9 @@ int main(int argc, char *argv[])
 
             char auth_header[512];
 
-            snprintf(auth_header, sizeof(auth_header), "PRIVATE-TOKEN: %s", key);
+            int written = snprintf(auth_header, sizeof(auth_header), "PRIVATE-TOKEN: %s", key);
+
+            if (written < 0 || (size_t)written >= sizeof(auth_header))
 
             make_request("https://gitlab.com/api/v4/user", auth_header, raw);
         }
@@ -221,7 +239,13 @@ int main(int argc, char *argv[])
 
             char url[512];
 
-            snprintf(url, sizeof(url), "https://science.nasa.gov/wp-json/wp/v2/apod-basic/?api_key=%s", key);
+            int written = snprintf(url, sizeof(url), "https://science.nasa.gov/wp-json/wp/v2/apod-basic/?api_key=%s", key);
+
+            if (written < 0 || (size_t)written >= sizeof(url))
+            {
+                fprintf(stderr, "Error: URL is too long.\n");
+                return 1;
+            }
 
             make_request(url, "", raw);
         }
@@ -259,7 +283,13 @@ int main(int argc, char *argv[])
 
             char url[512];
 
-            snprintf(url, sizeof(url), "https://api.openweathermap.org/data/2.5/weather?q=London&appid=%s", key);
+            int written = snprintf(url, sizeof(url), "https://api.openweathermap.org/data/2.5/weather?q=London&appid=%s", key);
+
+            if (written < 0 || (size_t)written >= sizeof(url))
+            {
+                fprintf(stderr, "Error: URL is too long.\n");
+                return 1;
+            }
 
             make_request(url, "", raw);
         }
@@ -274,7 +304,13 @@ int main(int argc, char *argv[])
 
             char url[512];
 
-            snprintf(url, sizeof(url), "https://api.telegram.org/bot%s/getMe", key);
+            int written = snprintf(url, sizeof(url), "https://api.telegram.org/bot%s/getMe", key);
+
+            if (written < 0 || (size_t)written >= sizeof(url))
+            {
+                fprintf(stderr, "Error: URL is too long.\n");
+                return 1;
+            }
 
             make_request(url, "", raw);
         }

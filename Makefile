@@ -6,8 +6,8 @@ LDLIBS = $(shell pkg-config --libs libcurl)
 
 TARGET = bin/keytester
 
-SOURCES = src/main.c src/requests.c
-HEADERS = src/requests.h
+SOURCES = src/main.c src/requests.c src/input.c
+HEADERS = src/requests.h src/input.h
 
 .PHONY = all clean
 
