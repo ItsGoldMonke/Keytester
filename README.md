@@ -3,7 +3,7 @@
 Keytester is a program that can test if your API keys work. It supports multiple services, currently supporting 10+ services, but with more providers planned.
 It is written in C, using the `libcurl` library for requests, and `termios` for hiding keys when the program asks for it on linux.
 API keys can be supplied through command-line arguments, environment variables, or the hidden-input prompt. They are checked in that order, with the prompt being the last fallback.
-This is my first ever C program, so expect some bugs to possibly exist. I made it for HackClub's [Terra](https://terra.hackclub.com) program.
+This is my first ever C program, so bugs may still exist. I made it for HackClub's [Terra](https://terra.hackclub.com) program.
 
 # Screenshot
 
